@@ -18,10 +18,15 @@ def create_app(config_name):
     lm.init_app(app)
 
     from .logic.user import user as user_blueprint
-    # from .logic.admin import admin as admin_blueprint
+    from .logic.auth import auth as auth_blueprint
 
     app.register_blueprint(user_blueprint)
-    # app.register_blueprint(admin_blueprint)
+    app.register_blueprint(auth_blueprint)
+    with app.app_context():
+        # Extensions like Flask-SQLAlchemy now know what the "current" app
+        # is while within this block. Therefore, you can now run........
+        db.drop_all()
+        db.create_all()
     return app
 
 

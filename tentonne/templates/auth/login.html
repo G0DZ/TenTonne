@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} &mdash; Avalance {% endblock %}
+
+{% block header %}
+    <div class="container-fluid">
+        <div class="row">
+            <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+            <div class="col-lg-12 col-md-12 text-center">
+                <h1 id="fh5co-logo"><a href="/">Magazine <sup>TM</sup></a></h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 text-center">
+                <h2>{{ title }}</h2>
+            </div>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="row">
+                <div class="col-lg-3 text-center" style="float: none; margin: 20px auto;">
+                    <div>
+                        {% for message in messages %}
+                            <div style="border-radius: 4px;
+background: #f5d3ce;
+border: 1px solid #eb5a46;
+display: inline-block;
+padding: .5em 1em;">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="row">
+        <div class="col-lg-3" style="float: none; margin: 20px auto;">
+            {% from "macros.html" import render_field %}
+            <form method="POST" action="/login" class="form bs-example form-horizontal">
+                {{ form.csrf_token }}
+                <input type="hidden" name="next" value="{{ next }}"/>
+                {{ render_field(form.email, class="form-control", placeholder="email", type="email") }}
+                <br>
+                {{ render_field(form.password, class="form-control", placeholder="password") }}
+                <br>
+                <div class="text-center">
+                    <button type="submit" value="login" class="btn btn-primary text-center">Войти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
